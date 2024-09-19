@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sign-in.css';
+import Record from 'Record';
 
 const Login = () => {
   return (
@@ -50,6 +51,11 @@ const Login = () => {
           </div>
           <button className="btn btn-primary w-100 py-2" type="submit">
             Iniciar Sesion
+          </button>
+          <br></br>
+          <br></br>
+          <button className="btn btn-primary w-100 py-2" type="submit">
+            Registrate
           </button>
         </form>
       </main>
