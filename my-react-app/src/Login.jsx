@@ -1,15 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sign-in.css';
-import Record from 'Record';
 
 const Login = () => {
+  // Estados para capturar el email y la contraseña
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Función que maneja el envío del formulario
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Evita el comportamiento por defecto del formulario
+    
+    // Datos que se enviarán a la API
+    const loginData = {
+      email: email,
+      password: password
+    };
+
+    try {
+      // Realiza la petición POST a la API
+      const response = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData), // Convierte los datos a formato JSON
+      });
+
+      // Manejo de la respuesta
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Si el login fue exitoso, manejar la respuesta
+        console.log('Inicio de sesión exitoso', data);
+        // Puedes redirigir o almacenar el token según sea necesario
+      } else {
+        // Si hubo un error, manejar el error
+        console.error('Error en el inicio de sesión:', data.message);
+      }
+    } catch (error) {
+      console.error('Error de conexión:', error);
+    }
+  };
+
   return (
-    <div 
-      className="d-flex justify-content-center align-items-center vh-100 bg-body-tertiary"
-    >
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-body-tertiary">
       <main className="form-signin">
-        <form>
+        <form onSubmit={handleSubmit}>
           <img
             className="mb-4"
             src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg"
@@ -25,6 +62,8 @@ const Login = () => {
               className="form-control"
               id="floatingInput"
               placeholder="name@example.com"
+              value={email} // Asocia el valor del estado email
+              onChange={(e) => setEmail(e.target.value)} // Actualiza el estado email
             />
             <label htmlFor="floatingInput">Usuario</label>
           </div>
@@ -34,6 +73,8 @@ const Login = () => {
               className="form-control"
               id="floatingPassword"
               placeholder="Password"
+              value={password} // Asocia el valor del estado password
+              onChange={(e) => setPassword(e.target.value)} // Actualiza el estado password
             />
             <label htmlFor="floatingPassword">Contraseña</label>
           </div>
@@ -54,7 +95,7 @@ const Login = () => {
           </button>
           <br></br>
           <br></br>
-          <button className="btn btn-primary w-100 py-2" type="submit">
+          <button className="btn btn-primary w-100 py-2" type="button">
             Registrate
           </button>
         </form>
