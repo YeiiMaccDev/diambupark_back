@@ -58,8 +58,8 @@ class Server {
         this.app.use(this.paths.search, require('../routes/search'));
         this.app.use(this.paths.users, require('../routes/user'));
         this.app.use(this.paths.uploads, require('../routes/upload'));
-        this.app.use(this.paths.securityQuestions, require('../routes/SecurityQuestion')); // Ruta de SecurityQuestions
-        this.app.use(this.paths.userSecurityAnswers, require('../routes/UserSecurityAnswer')); // Ruta de UserSecurityAnswers
+        this.app.use(this.paths.securityQuestions, require('../routes/securityQuestion')); // Ruta de SecurityQuestions
+        this.app.use(this.paths.userSecurityAnswers, require('../routes/userSecurityAnswer')); // Ruta de UserSecurityAnswers
     }
 
     listen() {
