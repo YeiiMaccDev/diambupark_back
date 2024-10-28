@@ -2,6 +2,7 @@ const {
     Role,
     User,
 } = require('../models');
+const securityQuestion = require('../models/securityQuestion');
 
 const isValidRole = async (role = '') => {
     const existsRole = await Role.findOne({ role });
@@ -23,6 +24,14 @@ const existsUserById = async (id = '') => {
     const existsUser = await User.findById(id);
 
     if (!existsUser) {
+        throw new Error(`El id ' ${id} ' no está registrado.`);
+    }
+}
+
+const existsSecurityQuestionById = async (id = '') => {
+    const existsSecurityQuestion = await securityQuestion.findById(id);
+
+    if (!existsSecurityQuestion) {
         throw new Error(`El id ' ${id} ' no está registrado.`);
     }
 }
@@ -55,6 +64,7 @@ module.exports = {
     isValidRole,
     existsEmail,
     existsUserById,
+    existsSecurityQuestionById,
     iscollectionsAuthorized,
     isArrayOfObject
 }

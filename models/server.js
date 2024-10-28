@@ -1,5 +1,4 @@
-
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
 
@@ -11,20 +10,23 @@ class Server {
         this.app = express();
         this.port = process.env.PORT || 8080;
 
+        // Paths de la API
         this.paths = {
             auth: '/api/auth',
             search: '/api/search',
             users: '/api/users',
-            uploads: '/api/uploads'
+            uploads: '/api/uploads',
+            securityQuestions: '/api/security-questions', // Nuevo módulo para preguntas de seguridad
+            userSecurityAnswers: '/api/user-security-answers' // Nuevo módulo para respuestas de seguridad de usuario
         }
 
-        // Connect to database
+        // Conectar a la base de datos
         this.connectDB();
 
-        // Middleware
+        // Middlewares
         this.middlewares();
 
-
+        // Rutas de la aplicación
         this.routes();
     }
 
@@ -37,13 +39,13 @@ class Server {
         // CORS
         this.app.use(cors());
 
-        // Reading and parsing of received data.
+        // Lectura y parseo del body
         this.app.use(express.json());
 
-        // Public directory
-        this.app.use(express.static('public'))
+        // Directorio público
+        this.app.use(express.static('public'));
 
-        // FileUpload 
+        // Carga de archivos
         this.app.use(fileUpload({
             useTempFiles: true,
             tempFileDir: '/tmp/',
@@ -51,18 +53,18 @@ class Server {
         }));
     }
 
-
     routes() {
-        this.app.use(this.paths.auth, require('../routes/auth'))
-        this.app.use(this.paths.search, require('../routes/search'))
-        this.app.use(this.paths.users, require('../routes/user'))
-        this.app.use(this.paths.uploads, require('../routes/upload'))
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.search, require('../routes/search'));
+        this.app.use(this.paths.users, require('../routes/user'));
+        this.app.use(this.paths.uploads, require('../routes/upload'));
+        this.app.use(this.paths.securityQuestions, require('../routes/SecurityQuestion')); // Ruta de SecurityQuestions
+        this.app.use(this.paths.userSecurityAnswers, require('../routes/UserSecurityAnswer')); // Ruta de UserSecurityAnswers
     }
-
 
     listen() {
         this.app.listen(this.port, () => {
-            console.log('Servidor corriendo en el puerto: ', this.port)
+            console.log('Servidor corriendo en el puerto: ', this.port);
         });
     }
 }

@@ -70,7 +70,8 @@ const postUsers = async (req, res = response) => {
     }
 
     if (role) {
-        data.role = role;
+        // data.role = role;
+        data.role = "USER_ROLE";
     }
 
     try {
