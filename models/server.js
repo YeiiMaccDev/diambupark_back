@@ -17,7 +17,9 @@ class Server {
             users: '/api/users',
             uploads: '/api/uploads',
             securityQuestions: '/api/security-questions', // Nuevo módulo para preguntas de seguridad
-            userSecurityAnswers: '/api/user-security-answers' // Nuevo módulo para respuestas de seguridad de usuario
+            userSecurityAnswers: '/api/user-security-answers', // Nuevo módulo para respuestas de seguridad de usuario
+            locations: '/api/locations', // Ruta para el módulo de Localidad
+            activities: '/api/activities'        // Nueva ruta para Actividades
         }
 
         // Conectar a la base de datos
@@ -60,6 +62,8 @@ class Server {
         this.app.use(this.paths.uploads, require('../routes/upload'));
         this.app.use(this.paths.securityQuestions, require('../routes/securityQuestion')); // Ruta de SecurityQuestions
         this.app.use(this.paths.userSecurityAnswers, require('../routes/userSecurityAnswer')); // Ruta de UserSecurityAnswers
+        this.app.use(this.paths.locations, require('../routes/location')); // Ruta de Localidad
+        this.app.use(this.paths.activities, require('../routes/activity')); // Ruta de Actividades
     }
 
     listen() {
