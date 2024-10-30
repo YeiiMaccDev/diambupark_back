@@ -1,8 +1,13 @@
 const {
+    Activity,
+    Park,
     Role,
+    Server,
     User,
+    UserSecurityAnswer,
+    SecurityQuestion,
+    Location
 } = require('../models');
-const securityQuestion = require('../models/securityQuestion');
 
 const isValidRole = async (role = '') => {
     const existsRole = await Role.findOne({ role });
@@ -29,9 +34,26 @@ const existsUserById = async (id = '') => {
 }
 
 const existsSecurityQuestionById = async (id = '') => {
-    const existsSecurityQuestion = await securityQuestion.findById(id);
+    const existsSecurityQuestion = await SecurityQuestion.findById(id);
 
     if (!existsSecurityQuestion) {
+        throw new Error(`El id ' ${id} ' no está registrado.`);
+    }
+}
+
+const existsActivityById = async (id = '') => {
+    const existsActivity = await Activity.findById(id);
+
+    if (!existsActivity) {
+        throw new Error(`El id ' ${id} ' no está registrado.`);
+    }
+}
+
+
+const existsLocalityById = async (id = '') => {
+    const existsLocality = await Location.findById(id);
+
+    if (!existsLocality) {
         throw new Error(`El id ' ${id} ' no está registrado.`);
     }
 }
@@ -65,6 +87,8 @@ module.exports = {
     existsEmail,
     existsUserById,
     existsSecurityQuestionById,
+    existsLocalityById,
+    existsActivityById,
     iscollectionsAuthorized,
     isArrayOfObject
 }

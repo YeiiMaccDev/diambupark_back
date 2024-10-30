@@ -56,13 +56,15 @@ const getUserById = async (req = request, res = response) => {
 
 const postUsers = async (req, res = response) => {
 
-    const { name, lastname, phone, email, password, role } = req.body;
+    const { name, lastname, phone, email, password, role, question, answer } = req.body;
 
     const data = {
         name,
         lastname,
         email,
-        password
+        password,
+        question,
+        answer
     }
 
     if (phone) {
@@ -80,6 +82,12 @@ const postUsers = async (req, res = response) => {
         // Encrypt password
         const salt = bcryptjs.genSaltSync();
         user.password = bcryptjs.hashSync(password, salt);
+
+        // Encrypt answer
+        if (user.answer) {
+            const saltanswer = bcryptjs.genSaltSync();
+            user.answer = bcryptjs.hashSync(answer, saltanswer);
+        }
 
         // Save to DB
         await user.save();

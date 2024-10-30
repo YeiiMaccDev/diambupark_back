@@ -19,7 +19,8 @@ class Server {
             securityQuestions: '/api/security-questions', // Nuevo módulo para preguntas de seguridad
             userSecurityAnswers: '/api/user-security-answers', // Nuevo módulo para respuestas de seguridad de usuario
             locations: '/api/locations', // Ruta para el módulo de Localidad
-            activities: '/api/activities'        // Nueva ruta para Actividades
+            activities: '/api/activities',        // Ruta para Actividades
+            parks: '/api/parks'        // Ruta para Parques
         }
 
         // Conectar a la base de datos
@@ -64,9 +65,10 @@ class Server {
         this.app.use(this.paths.userSecurityAnswers, require('../routes/userSecurityAnswer')); // Ruta de UserSecurityAnswers
         this.app.use(this.paths.locations, require('../routes/location')); // Ruta de Localidad
         this.app.use(this.paths.activities, require('../routes/activity')); // Ruta de Actividades
+        this.app.use(this.paths.parks, require('../routes/park')); // Ruta de parques
     }
 
-    listen() {
+       listen() {
         this.app.listen(this.port, () => {
             console.log('Servidor corriendo en el puerto: ', this.port);
         });

@@ -119,8 +119,66 @@ const googleSignIn = async (req = request, res = response) => {
 
 }
 
+
+const resetPassword = async (req = request, res = response) => {
+    try {
+        const { email, answer, newPassword } = req.body;
+
+        // Check if the email exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Email no registrado.'
+            });
+        }
+
+        // Check if the user is active
+        if (!user.status) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuario en estado inactivo.'
+            });
+        }
+
+        // Verify if the answer matches the encrypted answer
+        const validAnswer = bcryptjs.compareSync(answer, user.answer);
+        if (!validAnswer) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Respuesta de seguridad incorrecta.'
+            });
+        }
+
+        // Encrypt the new password
+        const salt = bcryptjs.genSaltSync();
+        const hashedPassword = bcryptjs.hashSync(newPassword, salt);
+
+        // Update the user's password
+        user.password = hashedPassword;
+        await user.save();
+
+        // Generate a new JWT
+        const token = await generateJWT(user.id);
+
+        res.json({
+            ok: true,
+            msg: 'Contraseña restablecida con éxito.',
+            token
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error de servidor.'
+        });
+    }
+};
+
 module.exports = {
     login,
     googleSignIn,
-    revalidateToken
+    revalidateToken,
+    resetPassword
 }

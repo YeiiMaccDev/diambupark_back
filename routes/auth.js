@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { login, googleSignIn, revalidateToken } = require('../controllers/auth');
+const { login, googleSignIn, revalidateToken, resetPassword } = require('../controllers/auth');
 const { existsEmail } = require('../helpers/db-validators');
 const { validateFields } = require('../middlewares/validate-fields');
 const { validateJWT } = require('../middlewares');
@@ -24,5 +24,12 @@ router.post('/login', [
 
 
 router.get('/renew', validateJWT, revalidateToken);
+
+router.post('/reset-password', [
+    check('email', 'El email es obligatorio').isEmail(),
+    check('answer', 'La respuesta de seguridad es obligatoria').not().isEmpty(),
+    check('newPassword', 'La nueva contraseña es obligatoria').isLength({ min: 5 }),
+    validateFields
+], resetPassword);
 
 module.exports = router;
