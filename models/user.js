@@ -38,8 +38,13 @@ const UserSchema = Schema({
     google: {
         type: Boolean,
         default: false
-    }
-
+    },
+    question: {
+        type: String,
+    },
+    answer: {
+        type: String,
+    },
 }, { timestamps: true });
 
 UserSchema.methods.toJSON = function () {
