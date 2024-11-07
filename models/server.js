@@ -20,7 +20,9 @@ class Server {
             userSecurityAnswers: '/api/user-security-answers', // Nuevo módulo para respuestas de seguridad de usuario
             locations: '/api/locations', // Ruta para el módulo de Localidad
             activities: '/api/activities',        // Ruta para Actividades
-            parks: '/api/parks'        // Ruta para Parques
+            parks: '/api/parks',        // Ruta para Parques
+            contacts: '/api/contacts', // Módulo de Contactos
+            ratings: '/api/ratings', // Módulo de Comentarios/Calificaciones
         }
 
         // Conectar a la base de datos
@@ -66,6 +68,8 @@ class Server {
         this.app.use(this.paths.locations, require('../routes/location')); // Ruta de Localidad
         this.app.use(this.paths.activities, require('../routes/activity')); // Ruta de Actividades
         this.app.use(this.paths.parks, require('../routes/park')); // Ruta de parques
+        this.app.use(this.paths.contacts, require('../routes/contact')); // Ruta de Contactos
+        this.app.use(this.paths.ratings, require('../routes/rating')); // Ruta de Comentarios/Calificaciones
     }
 
        listen() {
