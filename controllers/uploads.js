@@ -8,7 +8,8 @@ const { uploadsFiles,
     uploadImagesCloudinary
 } = require("../helpers");
 
-const { User, Product } = require("../models");
+const { User, Product, Park } = require("../models");
+const park = require("../models/park");
 
 const uploadFiles = async (req = request, res = response) => {
     try {
@@ -43,11 +44,11 @@ const updateImage = async (req = request, res = response) => {
             break;
 
         case 'products':
-            model = await Product.findById(id);
+            model = await Park.findById(id);
             if (!model) {
                 return res.status(400).json({
                     ok: false,
-                    msg: `No existe un producto con el id ${id}`
+                    msg: `No existe un parque con el id ${id}`
                 });
             }
             break;
@@ -101,7 +102,7 @@ const updateCloudImages = async (req = request, res = response) => {
 
             case 'products':
                 await validateImages(images, collection, true);
-                model = await Product.findById(id);
+                model = await Park.findById(id);
                 if (!model) {
                     return res.status(400).json({
                         ok: false,
@@ -146,7 +147,7 @@ const getImage = async (req = request, res = response) => {
             break;
 
         case 'products':
-            model = await Product.findById(id);
+            model = await Park.findById(id);
             if (!model) {
                 return res.status(400).json({
                     ok: false,
